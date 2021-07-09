@@ -30,3 +30,5 @@ else:
     print(1)
     for i in maps:
         print(''.join(i))
+
+https://sinsomi.tistory.com/entry/%EB%B0%B1%EC%A4%80-Python-16956%EB%B2%88-%EB%8A%91%EB%8C%80%EC%99%80-%EC%96%91-%EC%B4%88%EC%BD%94%EB%8D%94
