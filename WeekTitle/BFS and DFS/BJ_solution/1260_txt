@@ -1,0 +1,72 @@
+문제풀이
+from sys import stdin
+read = stdin.readline
+N, M, V = map(int, read().split())
+graph = [[0]*(N+1) for _ in range(N+1)]
+visited = [False]*(N+1)
+N = 4일 때, graph = [[0 0 0 0 0],[0 0 0 0 0],[0 0 0 0 0],[0 0 0 0 0],[0 0 0 0 0]]
+visited = [False False False False False]
+
+index가 0부터 시작하기 때문에 N+1을 해서 리스트 index를 4까지 만들었다.
+
+
+
+for _ in range(M):
+  x, y = map(int, read().split())
+  graph[x][y] = 1
+  graph[y][x] = 1
+간선의 방향이 양방향이기 때문에 x -> y,  y -> x 둘다 생각해야 된다. 위에 문제 예시 입력 값을 사용한다면,
+
+graph = [[0 0 0 0 0],[0 0 1 1 1],[0 1 0 0 1],[0 1 0 0 1],[0 1 1 1 0]] 는 이렇게 바뀐다.
+
+graph[1]에서  1값을 가지고 있는 index가 2, 3, 4이기 때문에 1은 2,3,4와 연결되어있다.
+
+
+
+def dfs(V):
+  visited[V] = True
+  print(V, end=" ")
+  for i in range(1, N+1):
+    if not visited[i] and graph[V][i] == 1:
+      dfs(i)
+V가 처음 시작하는 정점 숫자입니다.
+
+False로 되어있는 visited[V]를 True로 바꾸는 이유는 나중에 V가 다시 중복되지 않기 위함입니다.
+
+print안에 end=" "를 쓰는 이유는 출력값을 한 줄에 나란히 적어야하기 때문이다. end=" " 때문에 한칸씩 띄어지면서 다음 print되는 값이랑 한 줄에 같이 나온다.
+
+숫자가 1부터 4까지이기 때문에 range(1, N+1)이다.
+
+if not visited[i]는 visited[i]가 False이면 if를 충족한다. 동시에 graph[V][i]가 1이여야 한다.
+
+그렇게 되었을 때 dfs특성상 재귀함수를 사용해서 다른 숫자로 넘어간다.
+
+
+
+def bfs(V):
+  visited[V] = False
+  queue = [V]
+  while queue:
+    V = queue.pop(0)
+    print(V, end=" ")
+    for i in range(1, N+1):
+      if visited[i] and graph[V][i] == 1:
+        queue.append(i)
+        visited[i] = False
+위에 dfs()랑 중복되는건 따로 설명하지 않겠습니다..
+
+visited[V]가 dfs()함수에서 True값으로 바뀌었기 때문에 bfs()에서는 False로 바꾸어야한다.
+
+queue에다가 if를 충족한 숫자를 append하고 queue.pop(0)을해서 먼저 들어온것을 먼저 빼낸다(선입선출).
+
+
+
+dfs(V)
+print()
+bfs(V)
+중간에 print()가 있는 이유는 print( , end=" ") 때문에 dfs값이랑 bfs값이 같이 한줄에 나오는걸 막아주기 위함이다.
+
+
+
+출처: https://leedaeho1188.tistory.com/38 [Front-end Developer]
+
