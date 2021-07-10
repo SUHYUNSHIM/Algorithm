@@ -3,7 +3,7 @@ m = int(input())
 dic={}
 
 for i in range(n):
-    dic[i+1] = set()
+    dic[i+1] = set() ##노드번호 - {1,2,3,}
 for j in range(m):
     a,b = map(int, input().split())
     dic[a].add(b)
