@@ -1,3 +1,5 @@
+##큐 -> 가장 먼저 넣은 데이터를 가장 먼저 꺼낼 수 있는 구조
+##put, get
 import queue
 data_queue = queue.Queue()
 data_queue.put("hello_future")
