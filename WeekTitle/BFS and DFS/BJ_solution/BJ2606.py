@@ -9,7 +9,8 @@ for j in range(m):
     dic[a].add(b)
     dic[b].add(a)
 
-    def dfs(start,dic):
+    def dfs(start,
+            dic):
         for i in dic[start]:
             if i not in visited:
                 visited.append(i)
