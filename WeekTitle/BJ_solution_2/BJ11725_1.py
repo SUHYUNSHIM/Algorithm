@@ -1,5 +1,4 @@
 import sys
-
 sys.setrecursionlimit(10 ** 9)
 
 N = int(sys.stdin.readline())  # 노드의 갯수
@@ -11,7 +10,6 @@ for _ in range(N - 1):
 
 # 부모저장
 parents = [0 for _ in range(N + 1)]
-
 
 def DFS(start, tree, parents):
     for i in tree[start]:  # 연결된 노드 모두탐색

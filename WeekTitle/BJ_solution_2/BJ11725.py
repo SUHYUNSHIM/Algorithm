@@ -1,7 +1,7 @@
 import sys
 input = sys.stdin.readline
 n = int(input())
-tree=[[0] for i in range(n+1)]
+tree=[[] for i in range(n+1)] #노드의 값들__ 인접 리스트 방식
 
 for i in range(n-1):
     a,b = list(map(int,input().split()))
