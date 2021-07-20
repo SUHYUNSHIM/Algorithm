@@ -18,5 +18,5 @@ graph=[
         [2,6,8],
         [1,7]
     ]
-visited = [False]*9
+visited = [False]*9 #각 노드가 방문된 정보를 리스트 자료형으로 표현. 1차원 리스트.
 print(dfs(graph,1,visited))
