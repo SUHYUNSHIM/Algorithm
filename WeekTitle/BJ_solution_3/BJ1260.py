@@ -26,3 +26,6 @@ def bfs(V):
             if visited[i] and graph[V][i] == 1:
                 queue.append(i)
                 visited[i] = False
+dfs(V)
+print()
+bfs(V)
