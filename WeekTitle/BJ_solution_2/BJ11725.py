@@ -21,3 +21,4 @@ while queue:
             queue.append(i) #큐에 추가해 탐색을 이어간다.
 for i in range(2,n+1):
     print(result[i])
+print(result)
