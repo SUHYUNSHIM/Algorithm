@@ -1,3 +1,4 @@
+'''
 def dfs(graph, start_node):
     visited =list()
     need_visit=list()
@@ -36,5 +37,5 @@ def bfs(graph,start,visited):
                 visited[i] =True
 visited =[False] *9
 bfs(graph, 1, visited)
-        
+'''
     
