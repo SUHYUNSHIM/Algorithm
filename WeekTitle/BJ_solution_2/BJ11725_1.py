@@ -8,6 +8,9 @@ for _ in range(N - 1):
     tree[s].append(e)
     tree[e].append(s)
 
+#트리 정보 출력
+print(tree)
+
 # 부모저장
 parents = [0 for _ in range(N + 1)]
 
