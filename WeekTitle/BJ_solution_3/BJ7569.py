@@ -25,7 +25,7 @@ s = [[] for _ in range(h)] #익었는지 정보
 visit = [[[0 for _ in range(m)] for _ in range(n)] for _ in range(h)] #방문확인
 q = deque() #1 좌표.
 isTrue = False #1로 모두 바꿀 수 있는가.
-st = False
+
 
 for i in range(h):
     for j in range(n):
