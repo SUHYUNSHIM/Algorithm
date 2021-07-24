@@ -4,6 +4,7 @@ input = sys.stdin.readline
 dx = [1, -1, 0, 0, 0, 0]
 dy = [0, 0, -1, 1, 0, 0]
 dz = [0, 0, 0, 0, -1, 1]
+
 def bfs():
     while q:
         a, b, c = q.popleft()
@@ -42,3 +43,9 @@ if isTrue == True:
     print(-1)
 else:
     print(max_num - 1)
+
+'''
+bfs로 구현을 해준다.
+토마토가 있는 위치를 저장해서 bfs를 실행시켜준다.
+만약 0이 존재하면 -1을 출력해주고 그게 아니라면 제일 큰 값에 -1을 해준 값을 출력해준다.
+'''
