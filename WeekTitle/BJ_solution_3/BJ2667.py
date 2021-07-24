@@ -20,8 +20,8 @@ def dfs(x,y):
 for i in range(n):
     for j in range(n):
         if house[i][j] == 1:
-            cnt = 0
-            danji.append(dfs(i,j))
+            cnt = 0 #0으로 초기화
+            danji.append(dfs(i,j)) #dfs 실행.
 print(len(danji))
 danji.sort()
 for i in danji:
