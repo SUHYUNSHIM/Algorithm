@@ -7,10 +7,10 @@ dy = [0, 0, 1, -1]
 
 R, C, N = map(int, read().split()) #가로 칸의 수, 세로 칸의 수, 시간
 bomb = deque()
-N=N-1
 
 #리스트 입력
-board = [list(read()) for _ in range(R)]
+board = [list(read()) for _ in range(R)] #step1
+N=N-1 #step2 변화없음.
 
 #함수
 #폭탄 탐지
@@ -19,13 +19,13 @@ def findBomb():
         for j in range(C):
             if board[i][j] =='O':
                 bomb.append((i,j))
-#모두 설치
+#모두 설치-step3
 def addBomb():
     for i in range(R):
         for j in range(C):
             if board[i][j] != 'O':
                 board[i][j] ='O'
-#폭발
+#폭발-step4
 def bombbomb():
     while bomb:
         x, y = bomb.popleft()
