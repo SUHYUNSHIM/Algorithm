@@ -1,0 +1,193 @@
+16918 봄버맨
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayDeque;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+
+class Pair {
+    int r, c;
+    Pair(int r, int c) {
+        this.r = r;
+        this.c = c;
+    }
+}
+
+/**
+ * 1. '.', 'O'에 대한 char 배열
+ * 2. 폭탄의 시간초를 표현하는 int 배열
+ *
+ * 시간초가 -1인 폭탄 == 폭탄 없음
+ * 이렇게 int로 하나만 표현하면 굳이 폭탄이 있느냐 없느냐를 표현하는 char배열이 필요가 없다
+ *
+ *
+ */
+
+
+public class Main {
+    static BufferedReader br;
+    static StringTokenizer st;
+
+    static int R, C, N, time = 1;  // 처음 1초는 아무것도 하지 않으므로 1로 초기화
+    static int[][] bombs;
+    static int[] rArr = {-1, 1, 0, 0};
+    static int[] cArr = {0, 0, -1, 1};
+
+    public static void dfs(int r, int c) {
+        bombs[r][c] = -1;
+        for(int i = 0; i < 4; i++) {
+            int nr = r + rArr[i];
+            int nc = c + cArr[i];
+            if(-1 < nr && nr < R && -1 < nc && nc < C) {
+                if(bombs[nr][nc] == 0) {
+                    dfs(nr, nc);
+                }else {
+                    bombs[nr][nc] = -1;
+                }
+            }
+        }
+    }
+
+    public static void bfs(int r, int c) {
+        Queue<Pair> que = new ArrayDeque<>();
+        bombs[r][c] = -1;  // 일단 나 먼저 터짐
+        que.add(new Pair(r, c));
+
+        /**
+         * 탐색 진행하면서 boolean 배열로 체크 따로 할 필요도 없음
+
+           내가 방문을 했던 안 했던 폭탄이 없는 칸(-1인칸)은 안 갈 거임 !
+           그러니까, 내가 방문한 노드에 있는 폭탄을 터뜨려서 map[r][c] == 0이던 것을 map[r][c] == -1로 만들어버리면
+           그게 곧 checking 기능까지 같이 하게 되는 것
+         */
+
+        while(!que.isEmpty()) {
+            Pair p = que.poll();
+            for(int i = 0; i < 4; i++) {
+                int nr = p.r + rArr[i];
+                int nc = p.c + cArr[i];
+                if(-1 < nr && nr < R && -1 < nc && nc < C) {  // 범위 체크
+                    if(bombs[nr][nc] == 0) {
+                        bombs[nr][nc] = -1;  // 이것으로 checking 배열 대신함
+                        que.add(new Pair(nr, nc));
+                    }else {
+                        bombs[nr][nc] = -1;  // 폭탄이 있건 없건, 남은 시간이 있건 없건 전부 -1이 되어야 함
+                    }
+                    // 옆에 시간초가 남은 폭탄이 있어도 그것도 -1 만들어야하고
+                    // 옆에 아무 폭탄이 없어도? 원래 빈칸이어도? 그럼 그건 원래 -1이어야 하는거니까
+                    // -1을 새로 넣어주던말던 똑같은 것
+                }
+            }
+        }
+    }
+
+    public static void dropBomb() {
+        for(int i = 0; i < R; i++) {
+            for(int j = 0; j < C; j++) {
+                if(bombs[i][j] == -1) {
+                    bombs[i][j] = 3;
+                }
+            }
+        }
+    }
+
+
+    /**
+     * 각 단계의 동작들을 전부 메서드로 만들어버리는게
+     * 문제 풀면서 생각하기나 로직 짜는데 좀 더 편한 것 같다
+     *
+     * 처음에 했던 것,
+     * 이 문제의 요구사항을 어떤 로직들로 나눌 수 있을 것인가?
+     *
+     */
+
+    public static void passTime() {
+        time += 1;  // 시간 1초 지나감
+
+        // 이 for문은 이미 놓여있는 폭탄들의 시간초를 1초 지나게 하는 것.
+        // 나는 폭탄의 시간초 지나가는 순서를 1, 2, 3 으로 잡은게 아니라
+        // 처음에 3초로 잡고,  3, 2, 1 지나고 0이 되면 터뜨리려는 거라서 -= 을 해준 것
+        for(int i =  0; i < R; i++) {
+            for(int j = 0; j < C; j++) {
+                if(bombs[i][j] > 0) {  // 3, 2, 1  아직 터지면 안 되는 폭탄이니까 시간초만 빼준다
+                    bombs[i][j] -= 1;  // 시간초 1 빼준 것
+                }
+            }
+        }
+    }
+
+    public static void printAns() {
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < R; i++) {
+            for(int j = 0; j < C; j++) {
+                if(bombs[i][j] == -1) {
+                    sb.append(".");
+                }else {
+                    sb.append("O");
+                }
+            }
+            sb.append("\n");
+        }
+        System.out.println(sb.toString());
+    }
+
+    public static void main(String[] args) throws IOException {
+        br = new BufferedReader(new InputStreamReader(System.in));
+        st = new StringTokenizer(br.readLine());
+
+        R = Integer.parseInt(st.nextToken());
+        C = Integer.parseInt(st.nextToken());
+        N = Integer.parseInt(st.nextToken());  // 다음 1초간은 아무것도 하지 않는다. 그러니까 처음부터 -1 해버린다.
+        bombs = new int[R][C];
+
+
+        // 폭탄의 시간초는 3초인데,
+        // 맨 처음 1초는 아무것도 하지 않고 시간만 지나간다.
+        // 근데, 이 아무것도 안 하는 1초에 대한 로직을 따로 반복1회 돌리는것보다
+        // 그냥 처음에 받는 폭탄은 시간초 2초짜리로 잡아버림
+        for(int i = 0; i < R; i++) {
+            String input = br.readLine();
+            for(int j = 0; j < C; j++) {
+                char ch = input.charAt(j);
+                if(ch == 'O') {
+                    bombs[i][j] = 2;
+                }else {
+                    bombs[i][j] = -1;  // -1인 칸은 폭탄이 없는 상태
+                }
+            }
+        }
+
+        // 각 반복을 1초로 본다
+
+        // while * (passTime + bfs)
+        // 200 * (40,000 + 40,000)
+        // 8 * 10^4  * 2 * 10^2
+        // 16 * 10*6
+        // while은 최대 200번 돈다.
+
+
+
+        // time == 현재 시간
+        // N초가 될 때까지 반복을 수행한다
+        while(time != N) {
+            passTime();  // 폭탄 놓은 후에 passTime() 나오면 새 폭탄의 시간초가 2가 돼버리므로 passTIme() 먼저 해야함
+            dropBomb();
+
+            // 탐색 == 폭탄 터뜨리는 기능
+            for(int i = 0; i < R; i++) {
+                for(int j = 0; j < C; j++) {
+                    if(bombs[i][j] == 0) {  // 그럼, 어떤 칸을 탐색한다는 것 == 그 칸에 있는 폭탄을 터뜨릴거야!!
+                        bfs(i, j);
+//                        dfs(i, j);
+                    }
+                }
+            }
+        }
+        printAns();
+
+        // 끝 !
+    }
+}

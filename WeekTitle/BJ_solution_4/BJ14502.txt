@@ -1,0 +1,318 @@
+14502 연구소
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayDeque;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+class Pair {
+    int r, c;
+    Pair(int r, int c) {
+        this.r = r;
+        this.c = c;
+    }
+}
+
+public class Main {
+    static BufferedReader br;
+    static StringTokenizer st;
+
+    static int n, m, ans, zeroIdx;
+    static int[][] map;
+    static int[][] temp;
+    static int[][] virus;
+    static int[][] zeroArr;  // 여기에다가 좌표가 0인 애들을 싹 다 모아놓을거야
+    static boolean[] checkZero;  // 이 0 사용했니? 체크해야하니까.
+
+    /**
+     *  map 에 대해서 돈다는 거? 이중포문 돌면서 체크?
+     * 그냥 0인 좌표들에 대해서만 검사를 하고싶은 것. 쓸데없이 0이 아닌 좌표까지 확인하고 싶지가 않은 것
+     */
+
+
+    static int[] rArr = {-1, 1, 0, 0};
+    static int[] cArr = {0, 0, -1, 1};
+
+    public static void safeZone() {
+        int cnt = 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (virus[i][j] == 0) {
+                    cnt += 1;
+                }
+            }
+        }
+        ans = Math.max(ans, cnt);
+    }
+
+    // dept == 지금까지 세워진 벽의 개수
+    public static void dfs(int dept, int idx) {
+        if (dept == 3) {  // 벽 3개 완료
+            // 벽을 3개 세우는 하나의 경우의 수가 완성이 됐네?
+            // 그럼 이제, 바이러스 퍼뜨려야지 !
+
+            bfs();  // 벽을 다 세운 상황에서 호출되는 bfs()가 무슨 역할을 하겠어요? 바이러스 퍼뜨려야죠 맞습니다.
+            return;
+        }
+
+        // zeroArr = { ~  ~  ~  ~  ~   }
+
+
+//        for (int i = 0; i < n; i++) {
+//            for (int j = 0; j < m; j++) {
+//                if (temp[i][j] == 0) {
+//                    temp[i][j] = 1;
+//                    dfs(dept + 1);
+//                    temp[i][j] = 0;
+//                }
+//            }
+//        }
+        for(int i = idx + 1; i < zeroIdx; i++) {
+            if(!checkZero[i]) {
+                temp[zeroArr[i][0]][zeroArr[i][1]] = 1;
+                checkZero[i] = true;
+                dfs(dept + 1, i);
+                temp[zeroArr[i][0]][zeroArr[i][1]] = 0;
+                checkZero[i] = false;
+            }
+        }
+    }
+
+    public static void bfs() {
+        /**
+         * map에서 temp에다 딥 카피 왜 했어? 최초상태를 계속 기억하고 있으려고
+         * temp에서 virus에다 딥 카피 왜 할까? temp의 상태를 유지하고있어야해
+         * temp 에서 바이러스 다 퍼뜨려버리면?
+         *
+         */
+
+        // 사실 모든 바이러스가 동시에 확산되기 시작할 필요는 없지만
+        // 그래도 그게 뭔가 말이 더 되는 듯 하니까
+        // 2인 원소들을 que에 먼저 다 넣고 한 번에 퍼뜨리는거로 할게요
+
+
+        for (int i = 0; i < n; i++) {
+            virus[i] = temp[i].clone();
+        }
+
+        // queue 초기화
+        Queue<Pair> que = new ArrayDeque<>();
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (virus[i][j] == 2) {
+                    que.add(new Pair(i, j));
+                }
+            }
+        }
+
+        while (!que.isEmpty()) {
+            Pair p = que.poll();
+            for (int i = 0; i < 4; i++) {
+                int nr = p.r + rArr[i];
+                int nc = p.c + cArr[i];
+                if (-1 < nr && nr < n && -1 < nc && nc < m &&
+                        virus[nr][nc] == 0) {
+                    virus[nr][nc] = 2;  // 이걸로 checking까지 대체
+                    que.add(new Pair(nr, nc));
+                }
+            }
+        }
+
+        safeZone();
+    }
+
+    public static void main(String[] args) throws IOException {
+        br = new BufferedReader(new InputStreamReader(System.in));
+        st = new StringTokenizer(br.readLine());
+
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
+        map = new int[n][m];
+        temp = new int[n][m];
+        virus = new int[n][m];
+        zeroArr = new int[n * m][2];
+        checkZero = new boolean[n * m];
+
+        /**
+         *
+         * 나올 수 있는 좌표의 총 개수? N * M
+         * 모든 좌표가 0일 수도 있잖아
+         * 행 == 하나의 좌표
+         * 열 == 그 좌표의 (행, 열)
+         *
+         * zero[i][0] == i번째 0이 있는 좌표의 "행"값
+         * zero[i][1] == i번째 0이 있는 좌표의 "열"값
+         *
+         */
+
+        for (int i = 0; i < n; i++) {
+            st = new StringTokenizer(br.readLine());
+            for (int j = 0; j < m; j++) {
+                map[i][j] = Integer.parseInt(st.nextToken());
+                if(map[i][j] == 0) {
+                    zeroArr[zeroIdx][0] = i;
+                    zeroArr[zeroIdx++][1] = j;
+                }
+                // arrList 면 그냥 .add해주면 되는데
+                // 이건 배열이라서 어느 인덱스에 값을 넣을건지 명시해줘야하니까
+                // 그걸 위한 변수가 하나 더 필요한 거죠
+                // 만약에 0이 총 5개나왔어
+                // zeroIdx == 5
+
+
+            }
+        }
+
+
+        /**
+         * 한 경우의 수에 대하여
+         *
+         * 벽 3개 세우고
+         * 바이러스 확산
+         * 안전영역
+         *
+         * 그럼, 벽을 어디에 세울건데?
+         * 당연히 0인 위치에 세워야겠지
+         *
+         * 그럼 진짜 말 그대로 브루트 포스 (brute force)
+         * 다 해보는거야.
+         * 효율같은거 안 따지고
+         * 그냥 0이면 일단 벽을 세우고 보는거라고
+         *
+         * 그럼 일단 map의 크기만큼 반복을 돌려야겠지?
+         *
+         * deep copy / shallow copy 의 차이점을 알고 계시나요?
+         *
+         * 배열의 이름? == 주소 (그 배열의 주소)
+         *
+         * int[] arr1 = new int[n];
+         * int[] arr2;
+         * arr2 = arr1;
+         *
+         * 하나의 배열에 대해서 arr1, arr2
+         * 이것을 shallow copy (얕은 복사)
+         *
+         *
+         * int[] arr1 = new int[n];
+         * for(int i = 0; i < n; i++) {
+         *     arr1[i] = i;
+         * }
+         *
+         * int[] arr2 = new int[n];
+         * for(int i = 0; i < n; i++) {
+         *     arr2[i] = arr1[i];
+         * }
+         *
+         * arr1 과 arr2는 서로 다른 배열을 가리키고 있는거죠?
+         * 그러면, 각각 다른 배열에 대해서 그 안의 원소들이 복사가 된 것.
+         * 이걸 deep copy (깊은 복사)
+         *
+         * arr2 = arr1.clone();
+         * arr1과 모든 원소가 아예 똑같은 새로운 배열을 "새로 생성"해서 arr2에 넣어주는 것.
+         *
+         *
+         * map : 최초 상태를 항상 기억하고 있는 배열
+         * temp : 각 경우의 수에 대하여 벽이 세워진 상태를 나타낼 배열
+         * virus : temp 에서 바이러스가 전부 퍼진 상태를 나타낼 배열
+         *
+         * 왜 최초상태를 항상 기억하고 있어야만 할까요?
+         * map[i][j] = 1;
+         * 그럼 여기서 temp의 존재가 필요하다는걸 알게 됐죠?
+         *
+         *
+         * Array에 있는 clone() 이라는 함수는 1차원 배열을 대상으로 합니다.
+         * int[][] arr = new int[n][m];
+         *
+         * int[][] arr2 = arr.clone();
+         * 이건 에러가 나요.
+         *
+         * 2차원 배열 == 1차원 배열이 여러개 있는 것.
+         * 2차원배열의 '각 행'은 모두 하나의 1차원 배열이다
+         * 그러니까 2차원배열을 완벽하게 deep copy 해내려면 .clone()을 "행의 수"만큼 돌려줘야한다.
+         *
+         *
+         *
+         * 백트래킹에 대해서 알고 계시나요?
+         * 이거 모르시면 취업 못합니다
+         * 진짜에요.
+         *
+         * 브루트 포스에 항상 백트래킹이 쓰이는 건 아니지만,
+         * 정말 많이 쓰인다. 어디에? 브루트포스에. 뭐가? 백트래킹이.
+         *
+         * N과M에서도 백트래킹을 쓰셔야합니다.
+         * 그래도 스도쿠, N-Queen 둘 다 푸세요.
+         *
+         * 한국말 그대로 해석하자면 "역추적"
+         *
+         *
+         * 벽을 한개까지 세워놓은상황
+         *
+         * 중복 조합?
+         * 같은 조합이 중복되게 있다는 것. (이미 체크한 경우의 수를 또 체크한다는거야)
+         *
+         * 값이 0인 좌표듦을 따로 모아서 관리할 수 있다면?
+         * 그놈들에 대해서만 벽을 놓으면 되잖아.
+         * 굳이 이중포문 돌면서 N * M 사이즈를 다 돌 필요 없이
+         *
+         *
+         *
+         * (TODAY POINT)
+         * 1. 브루트 포스 (다해보기) 너무^1000000 유명 & 중요
+         * 2. 백트래킹 (이전 상태로 되돌아가기)  이것도 개중요. 모르면 취업 못 함
+         * 3. 중복 조합
+         *   3.1 i = idx + 1
+         *   3.2 모든 좌표에 대해서 반복 돌면서 검사하는게 아니라 필요한 좌표들만 따로 배열에 담아서 "필요한 것들만" 검사
+         *       쓸 데 없는 좌표들에 시간 허비할 필요가 없다
+         *
+         *
+         *  스도구, N-Queen, N과 M 시리즈 (12문제) = 14
+         *
+         */
+
+
+//        for (int i = 0; i < n; i++) {
+//            for (int j = 0; j < m; j++) {
+//                if (map[i][j] == 0) {
+//                    // deep copy
+//                    for (int k = 0; k < n; k++) {
+//                        temp[k] = map[k].clone();
+//                    }
+//
+//                    // back tracking
+//                    temp[i][j] = 1;
+//                    dfs(1);
+//                    temp[i][j] = 0;
+//                }
+//            }
+//        }
+
+        /**
+         * 여기서부터 해야할 것?
+         */
+        // zeroArr에 대해서만 반복을 돌면 된다.
+        for(int i = 0; i < zeroIdx; i++) {
+            /**
+             * 여기서 아까처럼 0인지 아닌지 검사할필요 있어?
+             * 다 0인데 뭐하러 검사해
+             */
+
+            // 일단 딥카피는 해놓고
+            for(int j = 0; j < n; j++) {
+                temp[j] = map[j].clone();
+            }
+
+            // 벽 어떻게 세우는가?
+            // zeroArr에 0인 좌표의 인덱스정보가 있잖아
+            temp[zeroArr[i][0]][zeroArr[i][1]] = 1;
+            checkZero[i] = true;
+            dfs(1, i);
+            temp[zeroArr[i][0]][zeroArr[i][1]] = 0;
+            checkZero[i] = false;
+        }
+
+
+        System.out.println(ans);
+    }
+}
