@@ -4,10 +4,10 @@ print(hash_table)
 day1 = 'Andy'
 day2 = 'Dave'
 day3 = 'Trump'
-print(ord(day1[0]), ord(day2[0]),ord(day3[0]))
+print(ord(day1[0]), ord(day2[0]),ord(day3[0])) #문자의 아스키 코드 리턴
 
 def hash_func(key):
-    return key % 5
+    return key % 5 #5로 나눈 나머지
 def storage_data(data,value):
     key = ord(data[0])
     hash_address = hash_func(key)
