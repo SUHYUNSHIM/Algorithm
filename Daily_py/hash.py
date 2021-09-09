@@ -26,7 +26,7 @@ def get_data(data):
 
 print(get_data('Andy'))
 
-#####
+########################################################################
 hash_table = list([0 for i in range(8)])
 def get_key(data):
     return hash(data) #hash 함수, 이것은 내장 함수이다.
@@ -44,5 +44,40 @@ save_data('Dave','01034345656')
 save_data('Andy','01012123434')
 print(read_data('Dave'))
 
-#충돌 해결
+#충돌 해결#
+hash_table = list([0 for i in range(8)]) ##[0,0,0,0,0,0,0,0]
+def get_key(data):
+    return hash(data) #hash 함수, 이것은 내장 함수이다.
+def hash_function(key):
+    return key % 8
 
+def save_data(data,value):
+    index_key = get_key(data)
+    hash_address = hash_function(index_key) #key로 변환하고 그 안에 넣는다.
+    if hash_table[hash_address] !=0: #value가 0이 아니다. 이미 하나가 들어가 있다.
+        for index in range(len(hash_table[hash_address])): #현재 해시 테이블 탐색
+            if hash_table[hash_address][index][0] == index_key:
+                hash_table[hash_address][index][1] = value
+                return
+        hash_table[hash_address].append([index_key,value]) #테이블 밖에 추가.for문을 빠져나오고 나서.
+    else:
+        hash_table[hash_address] = [[index_key,value]] #비어있다면 그냥 넣는다.
+def read_data(data):
+    index_key = get_key(data)
+    hash_address = hash_function(index_key)
+    if hash_table[hash_address] !=0:
+        for index in range(len(hash_table[hash_address])):
+            if hash_table[hash_address][index][0] == index_key:
+                return hash_table[hash_address][index][1]
+            return None
+    else:
+        return None
+
+print(hash('Dd')%8)
+print(hash('Data')%8)
+save_data('Dd','1201023010')
+save_data('Data','3301023010')
+print("충돌해결 " + read_data('Dd'))
+print(hash_table)
+
+#####linear probling
