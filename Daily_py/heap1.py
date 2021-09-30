@@ -88,7 +88,7 @@ heap.insert(8)
 heap.insert(5)
 heap.insert(4)
 heap.insert(20)
-heap.heap_array
+print(heap.heap_array)
 
-heap.pop()
-heap.heap_array
+print(heap.pop()) #전체 데이터에서 최댓값을 출력한다.
+print(heap.heap_array)
