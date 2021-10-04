@@ -29,6 +29,12 @@ data_list2 = [57,23]
 print(bubblesort2(data_list2))
 
 #데이터가 세 개일 때 버블 정렬 알고리즘 방식으로 정렬해보세요
-data_list2 = [21,19,14]
-print(bubblesort2(data_list2))
+data_list3 = [21,19,14]
+print(bubblesort2(data_list3))
 #데이터가 네 개일 때 버블 정렬 알고리즘 방식으로 정렿해보세요
+data_list4 = [66,71,27,12]
+for i in range(len(data_list4)-1):
+    for j in range(len(data_list4)-i-1):
+        if data_list4[j]>data_list4[j+1]:
+            data_list4[j],data_list4[j+1] = data_list4[j+1],data_list4[j]
+print(data_list4)
