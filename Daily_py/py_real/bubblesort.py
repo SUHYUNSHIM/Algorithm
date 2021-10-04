@@ -13,3 +13,22 @@ def bubblesort(data):
 data_list = random.sample(range(100),50)
 print(data_list)
 print(bubblesort(data_list))
+
+#데이터가 두 개일 때 버블 정렬 알고리즘 방식으로 정렬해보세요
+def bubblesort2(data):
+    for i in range(len(data)-1):
+        swap = False
+        for j in range(len(data)-i-1):
+            if data[j] > data[j+1]:
+                data[j],data[j+1] = data[j+1],data[j]
+                swap= True
+        if swap == False:
+            break
+    return data
+data_list2 = [57,23]
+print(bubblesort2(data_list2))
+
+#데이터가 세 개일 때 버블 정렬 알고리즘 방식으로 정렬해보세요
+data_list2 = [21,19,14]
+print(bubblesort2(data_list2))
+#데이터가 네 개일 때 버블 정렬 알고리즘 방식으로 정렿해보세요
