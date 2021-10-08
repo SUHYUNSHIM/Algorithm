@@ -68,3 +68,28 @@ def nums(n):
             return(nums(int(n/2)))
 print(nums(3))
 
+##factorial3
+#n이 입력으로 주어졌을 떄,, n을 1,2,3의 합으로 나타낼 수 있는 방법을 구하시오
+def sums(n):
+    if n == 1:
+        return 1
+    elif n==2:
+        return 2
+    elif n==3:
+        return 4
+    elif n==4:
+        return sums(1)+sums(2)+sums(3)
+    else:
+        return 2*sums(n-1) ##앞 모든 것의 합이 아니라 앞의 3개까지의 합이라는 규칙이 있음!!
+print(sums(6))
+
+print("정답")
+def func(data):
+    if data ==1:
+        return 1
+    elif data ==2:
+        return 2
+    elif data ==3:
+        return 4
+    return func(data-1)+func(data-2)+func(data-3)
+print(func(6))
