@@ -36,6 +36,8 @@ def palindrome(string):
         return False
 
 print(palindrome("level"))
+str = "boaaob"
+print("어떤 것이 출력되는가"+str[1:-1])
 
 ##factorial2
 #정수 n에 대해 n이 홀수면 3x n+1 을 하고
