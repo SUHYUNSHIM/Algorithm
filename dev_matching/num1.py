@@ -34,3 +34,33 @@ print(solution(list,check))
 print(solution(list1,check1))
 print(solution(list2,check2))
 print(solution(list3,check3))
+
+
+'''
+import re
+#리스트 문자열 비교
+#문자열과 숫자가 나누어짐
+def solution(registered_list,new_id):
+    #list = []
+    list = registered_list
+    #print(list)
+    for id in range(len(list)):
+        if list[id] == new_id: #아이디 중복
+            numbers = re.sub(r'[^0-9]', '', new_id) #숫자 분리
+            if numbers == '':
+                numbers = '0'
+            num = int(numbers)
+            num = num+1 #숫자만 추출 후 1을 더하였음
+
+            words = [i for i in new_id if i.isalpha()]
+            words = ''.join(words) #영소문자 문자열
+            new_id = words + str(num) #1을 더한 새 문자열을 만들었음
+        elif list[id] != new_id:
+            answer = new_id
+            return answer
+            break;
+            #solution(registered_list,new_check)
+    #answer=''
+    3점짜리 답안.. 예외 3/4 성공
+
+'''
