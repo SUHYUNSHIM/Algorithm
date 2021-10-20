@@ -36,7 +36,7 @@ def get_max_value(data_list, capacity):
             fraction = capacity / data[0] #나눗셈 결과 float . 5/2 = 2.5 . 몇 퍼센트가 반영되었는지
             total_value += data[1] * fraction
             details.append([data[0],data[1],fraction])
-            break #더 이상 할 수 없는 정도이기 때문에
+            break #더 이상 할 수 없는 정도이기 때문에 . break를 써야 하는 이유. 남은 한도에 최대한으로 털어넣어야 하기 때문에.
     return total_value , details
 
 print(get_max_value(data_list,30))
