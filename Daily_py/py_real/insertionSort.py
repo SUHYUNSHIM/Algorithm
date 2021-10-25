@@ -1,6 +1,6 @@
 def insertion_sort(data):
     for index in range(len(data)-1):
-        for index2 in range(index+1,0,-1):
+        for index2 in range(index+1,0,-1): #index+1, index, index-1 .... 1까지 
             if data[index2] < data[index2-1]:
                 data[index2],data[index2-1] = data[index2-1],data[index2]
             else:
