@@ -14,9 +14,9 @@ print(selection_sort(data_list))
 
 list = [9,1,7,3]
 for i in range(len(list)):
-    min = i
+    min = i #최초로 작은 값, 그 기준은 첫 인덱스이다.
     for j in range(i+1,len(list)):
         if list[min] > list[j]:
-            min = j #반복문으로 비교해나가면서 최소 인덱스를 찾는다.
+            min = j #반복문으로 비교해나가면서 최소 인덱스를 찾는다. min의 값이 업데이트 되고
         list[i],list[min] = list[min],list[i]
 print(list)
