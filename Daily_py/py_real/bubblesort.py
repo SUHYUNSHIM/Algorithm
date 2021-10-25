@@ -1,13 +1,14 @@
 import random
 
 def bubblesort(data):
-    for index in range(len(data)-1):
+    for index in range(len(data)-1): #길이 4? index = 0,1,2
         swap = False #swap이라는 장치를 추가
         for index2 in range(len(data)-index-1):
             if data[index2] > data[index2+1]:
                 data[index2],data[index2+1] = data[index2+1], data[index2]
                 swap = True #크기 순이 바뀌는 경우, True로 바꿔준다.
-        if swap == False: # for문을 다 빠져나왔을 때, 아직도 false면 이미 정렬된 상태라는 것.
+        if swap == False: #index = 0 부터해서 만약 12345 거나, index 1에서 21345 -> 12345로 for문을 빠져나온 뒤 바뀌는 것이 없으면 false 리턴
+                          #더 이상 정렬을 진행하지 않아도 됨을 의미한다.
             break
     return data
 data_list = random.sample(range(100),50)
