@@ -47,8 +47,8 @@ def union(node_v, node_u):
             rank[root2] +=1
 
 def make_set(node):
-    parent[node] = node
-    rank[node] = 0
+    parent[node] = node #parent['A'] = 'A'
+    rank[node] = 0      #rank['A'] = 'A'
 def kruskal(graph):
     mst = list()
 
@@ -57,7 +57,7 @@ def kruskal(graph):
         make_set(node)
     #2.간선 weight 기반 sorting
     edges = graph['edges']
-    edges.sort()
+    edges.sort()   #제일 앞에 있는 숫자 7 A B. A와 B 사이의 거리는 7이다.
 
     #3.간선 연결 (사이클 없는)
     for edge in edges:
