@@ -30,4 +30,23 @@ word_count = {
 C1, C2 = map(int,input().split()) #이름 두개의 각각 길이
 N1, N2 = input().split()
 
+R1 , R2 = list(), list()
+for i in range(len(N1)):
+   R1.append(word_count[N1[i]])
 
+for i in range(len(N2)):
+   R2.append(word_count[N2[i]])
+
+#print(R1)
+#print(R2)
+
+#글자 수가 다를 때? 더 짧은 것이 기준이다.
+if len(R1) >= len(R2):
+    cut_line = len(R2)
+else:
+    cut_line = len(R1)
+
+for i in range(len(R1)+len(R2)):
+    number_list = R1[i] + R2[i]
+    if number_list//10 == 1:
+        number_list = number_list % 10
