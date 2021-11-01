@@ -40,13 +40,33 @@ for i in range(len(N2)):
 #print(R1)
 #print(R2)
 
+length = len(R1)+len(R2)
+number_list = [*sum(zip(R1,R2),())]
+
 #글자 수가 다를 때? 더 짧은 것이 기준이다.
 if len(R1) >= len(R2):
     cut_line = len(R2)
+    number_list.extend(R1[cut_line:])
 else:
     cut_line = len(R1)
+    number_list.extend(R2[cut_line:])
 
-for i in range(len(R1)+len(R2)):
-    number_list = R1[i] + R2[i]
-    if number_list//10 == 1:
-        number_list = number_list % 10
+#print(number_list)
+#[1, 3, 4, 1, 4, 2, 1, 3, 1, 1, 2, 3, 1, 3, 2, 1]
+#나와야 하는 답 1 3 4 1 4 2 1 3 1 1 2 3 1 3 2 1 1 3 3 1 2 3
+
+#result_list = [0 for i in range(length)] #한 번 돌때마다 1씩 감소한 만큼 빈 배열을 만든다.
+for count in range(len(number_list)-2):
+    #print(number_list)
+    for i in range(len(number_list)-1-count):
+        number = number_list[i]+number_list[i+1] #1 + 3 = 4
+        #print(number)
+        if number//10 == 1: #두자리수를 넘어가면 1의 자리만 남기게
+            number = number % 10
+        number_list[i] = number
+result = number_list[0]*10 + number_list[1]
+print(str(result)+"%")
+
+
+        
+        
