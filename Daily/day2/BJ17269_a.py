@@ -8,7 +8,8 @@ for i in range(min_len):
     AB += A[i] +B[i]
 
 AB += A[min_len:] + B[min_len:]
-lst = [alp[ord(i)-ord('A')] for i in AB]
+lst = [alp[ord(i)-ord('A')] for i in AB] #ord() : 특정한 한 문자를 아스키 코드 값으로 변환
+#chr() 아스키 코드 값을 문자로 변환.. ord('A') == 65
 
 for i in range(N+M-2):
     for j in range(N+M-1-i):
