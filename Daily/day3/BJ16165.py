@@ -35,3 +35,5 @@ for i in range(M):
 
 for answer in quiz:
     print(answer)
+
+print(group) #{'twice': ['jihyo', 'dahyeon', 'mina', 'momo', 'chaeyoung', 'jeongyeon', 'tzuyu', 'sana', 'nayeon'], 'blackpink': ['jisu', 'lisa', 'rose', 'jenny'], 'redvelvet': ['wendy', 'irene', 'seulgi', 'yeri', 'joy']}
