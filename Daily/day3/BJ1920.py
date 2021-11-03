@@ -13,3 +13,10 @@ for i in test:
 
 for i in range(M):
     print(answer[i])
+
+'''
+N,A = int(input()), {i: 1 for i in map(int,input().split())} #int로 변환하여 있는 수는 1로 매칭 
+M = input()
+for i in list(map(int,input().split())):
+    print(A.get(i,0)) #print(1 if i in A else 0)
+'''

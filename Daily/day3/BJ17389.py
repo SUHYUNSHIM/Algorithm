@@ -16,3 +16,16 @@ for index in range(N):
         #print(sum)
         bonus += 1
 print(sum)
+
+'''
+N, S = input(), input()
+score, bonus = 0,0
+
+for idx, OX in enumerate(S):
+    if OX == 'O':
+        score += idx+1+bonus # score, bonus = score + idx +1 +bonus , bonus+1
+        bonus +=1
+    else:
+        bonus =0
+print(score)
+'''
