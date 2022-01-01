@@ -28,6 +28,8 @@ for c in word:
 print(temp_name)
 #baekjoon online judge
 #<open>tag<close>
-
+#<int><max>2147483647<long long><max>9223372036854775807
+#<problem>17413<is hardest>problem ever<end>
+#<   space   >space space space<    spa   c e>
 
 
