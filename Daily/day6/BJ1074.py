@@ -9,4 +9,7 @@ def Z(sz, x ,y):
         for j in range(2):
             if x < sz * (i+1) and y < sz * (j+1):
                 return (i*2+j) * sz * sz + Z(sz, x-sz*i, y-sz*j)
+#(0,0) (0,1) (1,0) (1,1)
+# i*2+ j --> 0,1,2,3
+
 print(Z(2**N, R, C))
